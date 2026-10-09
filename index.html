@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuScope</title>
+<meta name="description" content="QuScope: open-source quantum-circuit simulation of transmission electron microscopy. The electron wavefunction lives on qubits; every optical element is a diagonal unitary between quantum Fourier transforms.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="QuScope home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M5 16h22" stroke="currentColor" stroke-width="2.4"/><circle cx="16" cy="16" r="3.4" fill="var(--accent)"/></svg>
+      <span>QuScope</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#pipelines">Pipelines</a>
+      <a href="#modules">Modules</a>
+      <a href="#qptycho">qptycho</a>
+      <a href="#papers">Papers</a>
+      <a href="#start">Get started</a>
+      <a class="nav-gh" href="https://github.com/QuScope/QuScope">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Open-source · Python · Qiskit</p>
+    <h1>Quantum algorithms for electron microscopy</h1>
+    <p class="lede">QuScope rebuilds transmission electron microscopy image formation as quantum circuits. The
+      electron wavefunction is amplitude-encoded on qubits, and every optical element (specimen phase grating,
+      Fresnel propagation, objective lens) is a diagonal unitary between quantum Fourier transforms, validated
+      against classical references.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/QuScope/QuScope">View on GitHub</a>
+      <a class="btn" href="#papers">Read the papers</a>
+      <a class="btn" href="https://quscope.readthedocs.io">Documentation</a>
+    </div>
+    <ul class="facts" aria-label="At a glance">
+      <li><strong>4</strong><span>validated imaging pipelines</span></li>
+      <li><strong>2 log<sub>2</sub>N</strong><span>qubits for an N×N wavefield</span></li>
+      <li><strong>5th order</strong><span>lens aberration model</span></li>
+      <li><strong>Aer + IBM</strong><span>simulators and hardware</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="how">
+  <div class="wrap">
+    <h2 id="how">How it works</h2>
+    <p class="section-lede">One circuit per image (CTEM) or per probe position (STEM). Slices repeat for thick specimens.</p>
+    <figure class="diagram">
+      <svg viewBox="0 0 1030 230" role="img" aria-labelledby="dg-title dg-desc">
+        <title id="dg-title">The QuScope circuit</title>
+        <desc id="dg-desc">Qubits start in the zero state, the electron wave is amplitude-encoded, then each slice applies a phase grating in real space and Fresnel propagation in momentum space between a QFT and its inverse; the lens transfer function is applied in momentum space, and measuring the register gives the image or diffraction pattern.</desc>
+        <g class="wires">
+          <line x1="96" y1="95" x2="1000" y2="95"/>
+          <line x1="96" y1="135" x2="1000" y2="135"/>
+        </g>
+        <text class="lbl muted" x="88" y="99" text-anchor="end">x register</text>
+        <text class="lbl muted" x="88" y="139" text-anchor="end">y register</text>
+        <g transform="translate(70 0)">
+        <g class="box"><rect x="70" y="70" width="110" height="90" rx="10"/><text x="125" y="108">amplitude</text><text x="125" y="128">encoding |ψ⟩</text></g>
+        <g class="box accent2"><rect x="212" y="70" width="112" height="90" rx="10"/><text x="268" y="108">phase grating</text><text x="268" y="128">e<tspan dy="-7" class="sup">iσV(r)</tspan></text></g>
+        <g class="box"><rect x="344" y="70" width="64" height="90" rx="10"/><text x="376" y="120">QFT</text></g>
+        <g class="box accent3"><rect x="428" y="70" width="120" height="90" rx="10"/><text x="488" y="108">Fresnel</text><text x="488" y="128">e<tspan dy="-7" class="sup">−iπλΔz k²</tspan></text></g>
+        <g class="box"><rect x="568" y="70" width="64" height="90" rx="10"/><text x="600" y="120">QFT†</text></g>
+        <g class="bracket"><path d="M206 52 V44 H638 V52"/><text x="422" y="34">× slices (multislice)</text></g>
+        <g class="box accent3"><rect x="666" y="70" width="112" height="90" rx="10"/><text x="722" y="108">lens / CTF</text><text x="722" y="128">e<tspan dy="-7" class="sup">−iχ(k)</tspan></text></g>
+        <g class="box meter"><rect x="806" y="78" width="74" height="74" rx="10"/><path d="M820 132 a23 23 0 0 1 46 0"/><line x1="843" y1="132" x2="860" y2="100"/></g>
+        <text class="lbl muted" x="843" y="186" text-anchor="middle">image or</text>
+        <text class="lbl muted" x="843" y="203" text-anchor="middle">diffraction</text>
+        <text class="lbl muted" x="268" y="186" text-anchor="middle">diagonal gate</text>
+        <text class="lbl muted" x="488" y="186" text-anchor="middle">diagonal gate</text>
+        <text class="lbl muted" x="722" y="186" text-anchor="middle">diagonal gate</text>
+        </g>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<section id="pipelines" aria-labelledby="pipelines-h">
+  <div class="wrap">
+    <h2 id="pipelines-h">Validated pipelines</h2>
+    <p class="section-lede">Noise-free simulations reproduce the classical reference implementations to unit fidelity.</p>
+    <div class="grid four">
+      <article class="card">
+        <h3>CTEM (WPOA)</h3>
+        <p>Bright-field imaging: phase grating, QFT, contrast transfer function, inverse QFT.</p>
+        <code>quantum_ctem_circuit</code>
+      </article>
+      <article class="card">
+        <h3>CTEM multislice</h3>
+        <p>Alternating phase gratings and Fresnel propagators for thick specimens.</p>
+        <code>quantum_multislice_circuit</code>
+      </article>
+      <article class="card">
+        <h3>STEM (WPOA)</h3>
+        <p>A focused probe per scan position with HAADF, ADF, ABF, BF and iDPC detectors.</p>
+        <code>quantum_stem</code>
+      </article>
+      <article class="card">
+        <h3>STEM multislice</h3>
+        <p>The probe state through the full multislice circuit at every scan position.</p>
+        <code>quantum_stem_multislice</code>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="modules" class="band" aria-labelledby="modules-h">
+  <div class="wrap">
+    <h2 id="modules-h">Toolkit</h2>
+    <div class="grid three">
+      <article class="card plain">
+        <h3>Electron optics</h3>
+        <p>Relativistic wavelength and interaction constant, aberration function to 5th order (defocus,
+          astigmatism, coma, spherical aberration, …), contrast transfer function, Kirkland scattering factors.</p>
+      </article>
+      <article class="card plain">
+        <h3>Quantum backends</h3>
+        <p>Qiskit Aer statevector and shot-based simulation, noise models, and IBM Quantum hardware through a
+          single backend manager.</p>
+      </article>
+      <article class="card plain">
+        <h3>Materials and validation</h3>
+        <p>MoS<sub>2</sub> and graphene workflows, classical multislice and WPOA references, resource estimates and
+          circuit optimization.</p>
+      </article>
+      <article class="card plain experimental">
+        <h3>Diffraction <span class="tag">experimental</span></h3>
+        <p>Quantum diffraction modes: SAED, CBED, nanobeam diffraction, Kikuchi and EBSD.</p>
+      </article>
+      <article class="card plain experimental">
+        <h3>Thermal scattering <span class="tag">experimental</span></h3>
+        <p>Frozen phonons and thermal diffuse scattering: Debye–Waller channels, phonon superposition and
+          Lindblad channels.</p>
+      </article>
+      <article class="card plain experimental">
+        <h3>Bloch waves <span class="tag">experimental</span></h3>
+        <p>A Bloch-wave eigensolver based on quantum phase estimation.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="qptycho" aria-labelledby="qptycho-h">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Sister module</p>
+      <h2 id="qptycho-h">qptycho: quantum electron ptychography</h2>
+      <p>qptycho is the QuScope project's ptychography module. It builds on QuScope's register, lens model, phase
+        grating and backends to study the dose limits of electron ptychography for beam-sensitive materials and
+        in-situ experiments.</p>
+      <ul class="checks">
+        <li>STEM probe and multislice circuits validated against abTEM, including gas and liquid cells</li>
+        <li>Electron counting: one measurement shot is one detected electron</li>
+        <li>Quantum and classical Fisher information of the scattered electron, estimated with quantum circuits</li>
+        <li>Thermal vibrations and solvent configurations as an unmeasured configuration register</li>
+        <li>In-situ specimens: amorphous SiN and graphene windows, gas cells, liquid cells with window bulging</li>
+      </ul>
+      <p class="note">Repository in preparation (currently private). Physics fixes found while building it are in
+        QuScope 0.2.1.</p>
+    </div>
+    <aside class="card plain callout" aria-label="QuScope 0.2.1">
+      <h3>QuScope 0.2.1</h3>
+      <p>Branch <code>v0.2.x</code>. Corrects the wavefunction register labels for non-square grids, the
+        relativistic interaction constant in the Hamiltonian module, the units of the lens and free-space
+        propagator, the legacy constants, and implements the phase grating exactly, with regression tests.</p>
+      <a href="https://github.com/QuScope/QuScope/blob/v0.2.x/CHANGELOG.md">Changelog →</a>
+    </aside>
+  </div>
+</section>
+
+<section id="papers" class="band" aria-labelledby="papers-h">
+  <div class="wrap">
+    <h2 id="papers-h">Papers</h2>
+    <div class="grid two">
+      <article class="card paper">
+        <p class="paper-meta">arXiv:2608.02782 · quant-ph · Aug 2026</p>
+        <h3><a href="https://arxiv.org/abs/2608.02782">QuScope: An Open-Source Python Framework for Quantum-Circuit Simulation of Transmission Electron Microscopy</a></h3>
+        <p class="authors">Sean D. Lam, Roberto dos Reis</p>
+        <p>The QuScope framework: conventional, multislice and scanning TEM pipelines as quantum circuits,
+          validated against a classical reference, with resource estimates and an analysis of diagonal-gate
+          synthesis on near-term hardware.</p>
+      </article>
+      <article class="card paper">
+        <p class="paper-meta">arXiv:2602.13438 · quant-ph · Feb 2026</p>
+        <h3><a href="https://arxiv.org/abs/2602.13438">Quantum Algorithm Framework for Phase-Contrast Transmission Electron Microscopy Image Simulation</a></h3>
+        <p class="authors">Sean D. Lam, Roberto dos Reis</p>
+        <p>Phase-contrast image formation on a gate-based quantum computer, validated on MoS<sub>2</sub> against
+          classical multislice, with a discussion of where quantum circuits may help: Fourier-space queries,
+          global image statistics and phase-coherent observables.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="start" aria-labelledby="start-h">
+  <div class="wrap split">
+    <div>
+      <h2 id="start-h">Get started</h2>
+      <pre><code><span class="c"># release</span>
+pip install quscope
+
+<span class="c"># latest fixes (0.2.1)</span>
+git clone -b v0.2.x https://github.com/QuScope/QuScope
+pip install -e QuScope</code></pre>
+      <pre><code>from quscope.quantum_ctem import QuantumCTEMCircuit, QuantumCTEMParameters
+import numpy as np
+
+params = QuantumCTEMParameters(acceleration_voltage=200e3, grid_size=8,
+                               pixel_size=0.5, defocus=-659.7, cs=1.3)
+result = QuantumCTEMCircuit(params).simulate(np.random.rand(8, 8) * 100)
+print(result["intensity"].shape)   # (8, 8)</code></pre>
+    </div>
+    <div>
+      <h2>Cite</h2>
+      <pre class="bib"><code>@article{lam2026quscope,
+  title   = {QuScope: An Open-Source Python Framework for
+             Quantum-Circuit Simulation of Transmission
+             Electron Microscopy},
+  author  = {Lam, Sean D. and dos Reis, Roberto},
+  journal = {arXiv preprint arXiv:2608.02782},
+  year    = {2026}
+}
+
+@article{lam2026quantum,
+  title   = {Quantum Algorithm Framework for Phase-Contrast
+             Transmission Electron Microscopy Image Simulation},
+  author  = {Lam, Sean D. and dos Reis, Roberto},
+  journal = {arXiv preprint arXiv:2602.13438},
+  year    = {2026}
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>QuScope · Sean D. Lam and Roberto dos Reis · Northwestern University</p>
+    <p><a href="https://github.com/QuScope/QuScope">GitHub</a> · <a href="https://quscope.readthedocs.io">Docs</a> · MIT License</p>
+  </div>
+</footer>
+
+</body>
+</html>
