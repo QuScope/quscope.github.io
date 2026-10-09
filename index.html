@@ -280,10 +280,11 @@ h3 { margin: 0 0 10px; font: 700 1.3rem/1.2 var(--grotesk); letter-spacing: -.01
 .circ .g-a1 rect { fill: var(--a1); }
 .circ .g-a2 rect { fill: var(--a2); }
 .circ .g-a3 rect { fill: var(--a3); }
-.circ text { font: 700 15px var(--grotesk); fill: var(--ink); text-anchor: middle; }
-.circ .g-a1 text, .circ .g-a3 text { fill: #FFFDF9; }
-.circ .g-a2 text { fill: #1F1A17; }
-html.dark .circ .g-a1 text { fill: #12100E; }
+.circ text { font: 700 16px var(--grotesk); fill: var(--ink); text-anchor: middle; }
+.circ .exp { font: 700 12px var(--mono); letter-spacing: -.03em; }
+.circ .g-a1 text:not(.sub), .circ .g-a3 text:not(.sub) { fill: #FFFDF9; }
+.circ .g-a2 text:not(.sub) { fill: #1F1A17; }
+html.dark .circ .g-a1 text:not(.sub) { fill: #12100E; }
 .circ .sub { font: 400 12px var(--mono); fill: var(--muted); }
 .circ .brk { fill: none; stroke: var(--ink); stroke-width: 2; }
 .circ .brk-t { font: 700 13px var(--mono); fill: var(--ink); }
@@ -641,16 +642,16 @@ footer { border-top: 2.5px solid var(--line); padding: 46px 0 30px; }
       <figure class="plate" aria-label="Circuit plate: amplitude encoding, phase grating, QFT, Fresnel propagator, inverse QFT, lens, measurement">
         <div class="plate-label mono"><span>Plate II — The circuit</span><span class="muted">2 log₂N qubits</span></div>
         <svg class="circ" id="circ" viewBox="0 0 560 300" aria-hidden="true">
-          <line class="wire" x1="16" y1="128" x2="548" y2="128"/>
-          <line class="wire" x1="16" y1="168" x2="548" y2="168"/>
-          <g data-gate="enc"><rect x="22" y="104" width="62" height="88" rx="10"/><text x="53" y="146">|ψ⟩</text><text class="sub" x="53" y="216">encode</text></g>
-          <g data-gate="grating" class="g-a1"><rect x="98" y="104" width="62" height="88" rx="10"/><text x="129" y="146">e^iσV</text><text class="sub" x="129" y="216">grating</text></g>
-          <g data-gate="qft"><rect x="174" y="104" width="58" height="88" rx="10"/><text x="203" y="153">QFT</text></g>
-          <g data-gate="fresnel" class="g-a3"><rect x="246" y="104" width="62" height="88" rx="10"/><text x="277" y="146">e^−iπλΔz k²</text><text class="sub" x="277" y="216">Fresnel</text></g>
-          <g data-gate="qftd"><rect x="322" y="104" width="58" height="88" rx="10"/><text x="351" y="153">QFT†</text></g>
-          <g data-gate="lens" class="g-a2"><rect x="394" y="104" width="62" height="88" rx="10"/><text x="425" y="146">e^−iχ</text><text class="sub" x="425" y="216">lens</text></g>
-          <g data-gate="meter" class="meter"><rect x="470" y="110" width="74" height="76" rx="10"/><path d="M485 166 a22 22 0 0 1 44 0"/><line x1="507" y1="166" x2="523" y2="134"/><text class="sub" x="507" y="216">detect</text></g>
-          <g data-gate="bracket"><path class="brk" d="M92 92 V80 H314 V92"/><text class="brk-t" x="203" y="70" text-anchor="middle">× S slices</text></g>
+          <line class="wire" x1="8" y1="128" x2="552" y2="128"/>
+          <line class="wire" x1="8" y1="168" x2="552" y2="168"/>
+          <g data-gate="enc"><rect x="16" y="104" width="56" height="88" rx="10"/><text x="44" y="154">|ψ⟩</text><text class="sub" x="44" y="216">encode</text></g>
+          <g data-gate="grating" class="g-a1"><rect x="82" y="104" width="64" height="88" rx="10"/><text x="114" y="156">e<tspan class="exp" dy="-9">iσV</tspan></text><text class="sub" x="114" y="216">grating</text></g>
+          <g data-gate="qft"><rect x="156" y="104" width="52" height="88" rx="10"/><text x="182" y="154">QFT</text></g>
+          <g data-gate="fresnel" class="g-a3"><rect x="218" y="104" width="96" height="88" rx="10"/><text x="266" y="156">e<tspan class="exp" dy="-9">−iπλΔz k²</tspan></text><text class="sub" x="266" y="216">Fresnel</text></g>
+          <g data-gate="qftd"><rect x="324" y="104" width="52" height="88" rx="10"/><text x="350" y="154">QFT†</text></g>
+          <g data-gate="lens" class="g-a2"><rect x="386" y="104" width="62" height="88" rx="10"/><text x="417" y="156">e<tspan class="exp" dy="-9">−iχ</tspan></text><text class="sub" x="417" y="216">lens</text></g>
+          <g data-gate="meter" class="meter"><rect x="460" y="110" width="80" height="76" rx="10"/><path d="M478 166 a22 22 0 0 1 44 0"/><line x1="500" y1="166" x2="516" y2="134"/><text class="sub" x="500" y="216">detect</text></g>
+          <g data-gate="bracket"><path class="brk" d="M76 92 V80 H382 V92"/><text class="brk-t" x="229" y="70" text-anchor="middle">× S slices</text></g>
         </svg>
         <p class="mono muted" style="margin:0">Each box is one diagonal gate or Fourier transform.</p>
       </figure>
