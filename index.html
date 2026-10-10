@@ -128,7 +128,9 @@ sub, sup { font-size: .7em; }
 .logo { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; margin-right: auto; }
 .logo-mark { width: 44px; height: 44px; flex: none; }
 .logo-word { font: 900 1.55rem/1 var(--display); letter-spacing: -.02em; }
-.logo-sub { display: block; font: 700 .58rem/1 var(--mono); letter-spacing: .22em; color: var(--muted); margin-top: 4px; }
+.logo-sub { display: block; font: 700 .58rem/1 var(--mono); letter-spacing: .22em; color: var(--muted); margin-top: 4px; white-space: nowrap; }
+@media (max-width: 1100px) { .nav .logo-sub { display: none; } }
+.nav .btn { white-space: nowrap; }
 .nav-links { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; }
 .nav-links a {
   display: inline-block; padding: 8px 13px; border: 2px solid transparent; border-radius: 999px;
@@ -507,7 +509,7 @@ footer { border-top: 2.5px solid var(--line); padding: 46px 0 30px; }
         <path d="M14 24h20" stroke="var(--line)" stroke-width="2.5"/>
         <circle cx="24" cy="24" r="5" fill="var(--a1)" stroke="var(--line)" stroke-width="2"/>
       </svg>
-      <span><span class="logo-word">QuScope</span><span class="logo-sub">Quantum · Microscopy</span></span>
+      <span><span class="logo-word">QuScope</span><span class="logo-sub">Quantum algorithms · Electron microscopy</span></span>
     </a>
     <nav aria-label="Main">
       <ul class="nav-links" id="nav-links">
@@ -959,7 +961,7 @@ print(result[<span class="k">"intensity"</span>].shape)   <span class="c"># (8, 
             <path d="M24 5v13M24 30v13M14 24h20" stroke="var(--line)" stroke-width="2.5"/>
             <circle cx="24" cy="24" r="5" fill="var(--a1)" stroke="var(--line)" stroke-width="2"/>
           </svg>
-          <span><span class="logo-word">QuScope</span><span class="logo-sub">Quantum · Microscopy</span></span>
+          <span><span class="logo-word">QuScope</span><span class="logo-sub">Quantum algorithms · Electron microscopy</span></span>
         </a>
         <div class="serial"><span class="rivet"></span>Serial No. QSCP-0.2.1-2026<br><span class="rivet"></span>Mfd. Northwestern University · Evanston, IL</div>
       </div>
